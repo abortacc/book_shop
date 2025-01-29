@@ -110,8 +110,16 @@ class Book(BaseModel, PublishedModel, StockModel):
         blank=True,
         verbose_name='Тэги'
     )
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-    book_format = models.CharField(max_length=2, choices=BookFormat.choices)
+    price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        verbose_name='Цена'
+    )
+    book_format = models.CharField(
+        max_length=2,
+        choices=BookFormat.choices,
+        verbose_name='Формат'
+    )
 
     class Meta:
         verbose_name = 'Книга'
