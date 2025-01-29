@@ -23,7 +23,18 @@ class Category(BaseModel, PublishedModel):
 
 
 class Tag(BaseModel):
-    pass
+    name = models.CharField(
+        max_length=64,
+        unique=True,
+        verbose_name='Тэг'
+    )
+
+    class Meta:
+        verbose_name = 'Тэг'
+        verbose_name_plural = 'тэги'
+
+    def __str__(self):
+        return self.name
 
 
 class Author(BaseModel):
