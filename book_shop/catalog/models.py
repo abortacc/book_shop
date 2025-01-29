@@ -120,6 +120,12 @@ class Book(BaseModel, PublishedModel, StockModel):
         choices=BookFormat.choices,
         verbose_name='Формат'
     )
+    cover_image = models.ImageField(
+        upload_to='books/covers/',
+        verbose_name='Обложка книги',
+        null=True,
+        blank=True
+    )
 
     class Meta:
         verbose_name = 'Книга'
