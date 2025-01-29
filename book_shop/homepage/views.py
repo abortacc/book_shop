@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from django.db.models import Q
-from catalog.models import Book
+from django.db.models import Q, Prefetch
+from catalog.models import Book, Category
 
 
 def index(request):
@@ -15,7 +15,16 @@ def index(request):
     ).order_by(
         '-created_at'
     )[:3]
+
+    categories = Category.objects.prefetch_related(
+        Prefetch('book_set', queryset=Book.objects.filter(
+            is_published=True).order_by('-created_at')
+        )
+    ).filter(
+        is_published=True
+    )
     context = {
-        'book_list_new': book_list_new
+        'book_list_new': book_list_new,
+        'categories': categories
     }
     return render(request, template, context)

@@ -8,96 +8,14 @@
         {% include "includes/book_card.html" %}
     </div>
     
-    <h3 class="mt-5 pb-3">Программирование</h3>
-    <div class="row">
-        <div class="col-md-2">
-            <div class="small-book-card p-2">
-                <a href="#"><img src="{% static 'img/book.jpg' %}" alt="Книга"></a>
-                <p class="author">Райан Митчелл</p>
-                <p>Парсинг с помощью Python.</p>
-            </div>
+    {% for category in categories %}
+        <h3 class="mt-5 pb-3">{{ category.title }}</h3>
+        <div class="row">
+            {% for book in category.book_set.all|slice:":6" %}
+                {% include "includes/small-book-card.html" %}
+            {% empty %}
+                <p>В этой категории пока нет книг :(</p>
+            {% endfor %}
         </div>
-        <div class="col-md-2">
-            <div class="small-book-card p-2">
-                <img src="{% static 'img/book.jpg' %}" alt="Книга">
-                <p class="author">Райан Митчелл</p>
-                <p>Парсинг с помощью Python.</p>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="small-book-card p-2">
-                <img src="{% static 'img/book.jpg' %}" alt="Книга">
-                <p class="author">Райан Митчелл</p>
-                <p>Парсинг с помощью Python.</p>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="small-book-card p-2">
-                <img src="{% static 'img/book.jpg' %}" alt="Книга">
-                <p class="author">Райан Митчелл</p>
-                <p>Парсинг с помощью Python.</p>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="small-book-card p-2">
-                <img src="{% static 'img/book.jpg' %}" alt="Книга">
-                <p class="author">Райан Митчелл</p>
-                <p>Парсинг с помощью Python.</p>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="small-book-card p-2">
-                <img src="{% static 'img/book.jpg' %}" alt="Книга">
-                <p class="author">Райан Митчелл</p>
-                <p>Парсинг с помощью Python.</p>
-            </div>
-        </div>
-    </div>
-
-    <h3 class="mt-5 pb-3">Математика</h3>
-    <div class="row">
-        <div class="col-md-2">
-            <div class="small-book-card p-2">
-                <img src="{% static 'img/book.jpg' %}" alt="Книга">
-                <p class="author">Райан Митчелл</p>
-                <p>Парсинг с помощью Python.</p>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="small-book-card p-2">
-                <img src="{% static 'img/book.jpg' %}" alt="Книга">
-                <p class="author">Райан Митчелл</p>
-                <p>Парсинг с помощью Python.</p>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="small-book-card p-2">
-                <img src="{% static 'img/book.jpg' %}" alt="Книга">
-                <p class="author">Райан Митчелл</p>
-                <p>Парсинг с помощью Python.</p>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="small-book-card p-2">
-                <img src="{% static 'img/book.jpg' %}" alt="Книга">
-                <p class="author">Райан Митчелл</p>
-                <p>Парсинг с помощью Python.</p>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="small-book-card p-2">
-                <img src="{% static 'img/book.jpg' %}" alt="Книга">
-                <p class="author">Райан Митчелл</p>
-                <p>Парсинг с помощью Python.</p>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="small-book-card p-2">
-                <img src="{% static 'img/book.jpg' %}" alt="Книга">
-                <p class="author">Райан Митчелл</p>
-                <p>Парсинг с помощью Python.</p>
-            </div>
-        </div>
-    </div>
-</div>
+    {% endfor %}
 {% endblock content %}

@@ -2,8 +2,8 @@
 
 <div class="col-md-2">
     <div class="small-book-card p-2">
-        <a href="#"><img src="{% static 'img/book.jpg' %}" alt="Книга"></a>
-        <p class="author">Райан Митчелл</p>
-        <p>Парсинг с помощью Python.</p>
+        <a href="#"><img src={{ book.cover_image.url }} alt="Книга"></a>
+        <p class="author">{{ book.author }}</p>
+        <p>{{ book.title|truncatewords:5 }}</p>
     </div>
 </div>
