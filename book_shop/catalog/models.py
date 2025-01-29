@@ -38,7 +38,24 @@ class Tag(BaseModel):
 
 
 class Author(BaseModel):
-    pass
+    name = models.CharField(
+        max_length=255,
+        verbose_name='Имя'
+    )
+    birth_date = models.DateField(
+        verbose_name='Дата рождения'
+    )
+    bio = models.TextField(
+        blank=True,
+        verbose_name='Бигорафия'
+    )
+
+    class Meta:
+        verbose_name = 'Автор'
+        verbose_name_plural = 'авторы'
+
+    def __str__(self):
+        return self.name
 
 
 class Publisher(BaseModel):
