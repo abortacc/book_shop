@@ -73,9 +73,49 @@ class Publisher(BaseModel):
         return self.name
 
 
-class Format(BaseModel):
-    pass
+class BookFormat(models.TextChoices):
+    PAPERBOOK = 'PB', 'Бумажная'
+    EBOOK = 'EB', 'Электронная'
+    AUDIOBOOK = 'AB', 'Аудиокнига'
 
 
 class Book(BaseModel, PublishedModel, StockModel):
-    pass
+    title = models.CharField(
+        max_length=255, 
+        verbose_name='Название'
+    )
+    author = models.ForeignKey(
+        Author,
+        on_delete=models.CASCADE,
+        related_name='books',
+        verbose_name='Автор'
+    )
+    publisher = models.ForeignKey(
+        Publisher,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name='Издательство'
+    )
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name='Категория'
+    )
+    tags = models.ManyToManyField(
+        Tag,
+        related_name='books',
+        blank=True,
+        verbose_name='Тэги'
+    )
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    book_format = models.CharField(max_length=2, choices=BookFormat.choices)
+
+    class Meta:
+        verbose_name = 'Книга'
+        verbose_name_plural = 'книги'
+
+    def __str__(self):
+        return self.title
