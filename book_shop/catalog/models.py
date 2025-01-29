@@ -59,7 +59,18 @@ class Author(BaseModel):
 
 
 class Publisher(BaseModel):
-    pass
+    name = models.CharField(
+        max_length=128,
+        unique=True,
+        verbose_name='Издательство'
+    )
+
+    class Meta:
+        verbose_name = 'Издательство'
+        verbose_name_plural = 'издателсьтва'
+
+    def __str__(self):
+        return self.name
 
 
 class Format(BaseModel):
