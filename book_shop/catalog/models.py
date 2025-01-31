@@ -43,7 +43,9 @@ class Author(BaseModel):
         verbose_name='Имя'
     )
     birth_date = models.DateField(
-        verbose_name='Дата рождения'
+        verbose_name='Дата рождения',
+        blank=True,
+        null=True
     )
     bio = models.TextField(
         blank=True,
