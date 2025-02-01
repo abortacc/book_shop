@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load static %}
 
 {% block content %}
 <div class="container mt-4">
@@ -12,7 +11,7 @@
         <h3 class="mt-5 pb-3">{{ category.title }}</h3>
         <div class="row">
             {% for book in category.book_set.all|slice:":6" %}
-                {% include "includes/small-book-card.html" %}
+                {% include "includes/small_book_card.html" %}
             {% empty %}
                 <p>В этой категории пока нет книг :(</p>
             {% endfor %}
