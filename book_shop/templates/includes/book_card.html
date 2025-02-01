@@ -8,7 +8,7 @@
             {% endfor %}
             <span class="badge custom-badge me-1">{{ book.category.title }}</span>
         </div>
-        <p class="mb-2">{{ book.title }}</p>
+        <p class="mb-2">{{ book.title|truncatechars:30 }}</p>
         <div class="d-flex justify-content-between align-items-center">
             <button class="btn btn-custom">Подробнее</button>
             <p class="price mb-0">{{ book.price }} ₽</p>

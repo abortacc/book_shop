@@ -2,6 +2,6 @@
     <div class="small-book-card p-2">
         <a href="#"><img src={{ book.cover_image.url }} alt="Книга"></a>
         <p class="author">{{ book.author }}</p>
-        <p>{{ book.title|truncatewords:5 }}</p>
+        <p>{{ book.title|truncatechars:30 }}</p>
     </div>
 </div>
