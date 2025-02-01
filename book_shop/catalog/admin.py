@@ -43,6 +43,7 @@ class CategoryAdmin(admin.ModelAdmin):
         'title',
         'slug',
         'is_published',
+        'is_on_main',
         'created_at'
     )
     list_display_links = (
@@ -57,6 +58,9 @@ class CategoryAdmin(admin.ModelAdmin):
     )
     ordering = (
         'title',
+    )
+    list_editable = (
+        'is_on_main',
     )
 
 
