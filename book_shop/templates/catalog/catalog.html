@@ -1,8 +1,13 @@
 {% extends "base.html" %}
-{% load static %}
 
 {% block content %}
 <div class="container">
+    {% if category %}
+        <h3 class="mt-5 pb-3">{{ category.title }}</h3>
+    {% else %}
+        <h3 class="mt-5 pb-3">Все книги</h3>
+    {% endif %}
+    
     <div class="row mt-4 justify-content-center">
         <div class="col-12 col-md-9">
             <div class="row g-4">
