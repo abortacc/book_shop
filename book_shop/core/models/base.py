@@ -1,6 +1,16 @@
 from django.db import models
 
 
+class IsOnMainModel(models.Model):
+    is_on_main = models.BooleanField(
+        default=False,
+        verbose_name='На главной'
+    )
+
+    class Meta:
+        abstract = True
+
+
 class PublishedModel(models.Model):
     is_published = models.BooleanField(
         default=True,
