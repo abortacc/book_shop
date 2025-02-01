@@ -21,7 +21,8 @@ def index(request):
             is_published=True).order_by('-created_at')
         )
     ).filter(
-        is_published=True
+        is_published=True,
+        is_on_main=True
     )
     context = {
         'book_list_new': book_list_new,
