@@ -1,8 +1,13 @@
 from django.db import models
-from core.models.base import BaseModel, PublishedModel, StockModel
+from core.models.base import (
+    BaseModel,
+    PublishedModel,
+    StockModel,
+    IsOnMainModel
+    )
 
 
-class Category(BaseModel, PublishedModel):
+class Category(BaseModel, PublishedModel, IsOnMainModel):
     title = models.CharField(
         max_length=64,
         unique=True,
