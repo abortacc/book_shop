@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q, Prefetch
+from django.core.paginator import Paginator
 from .models import Book, Category
 
 
@@ -11,20 +12,26 @@ def catalog(request, slug_name=None):
             Category.objects.prefetch_related(
                 Prefetch('book_set', queryset=Book.objects.filter(
                     is_published=True
-                ).order_by('-created_at'))
+                ).order_by('id', '-created_at'))
             ),
             slug=slug_name,
             is_published=True
         )
+        paginator = Paginator(category.book_set.all(), 8)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
         context = {
             'category': category,
-            'book_list': category.book_set.all()
+            'book_list': page_obj
         }
     else:
         books_list = Book.objects.all().filter(
             Q(is_published=True) & Q(category__is_published=True)
-        )
+        ).order_by('id')
+        paginator = Paginator(books_list, 8)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
         context = {
-            'book_list': books_list
+            'book_list': page_obj
         }
     return render(request, template_name, context)
