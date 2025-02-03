@@ -1,6 +1,6 @@
 {% for book in book_list_new %}
-<div class="col-md-4">
-    <div class="book-card bg-white p-3 text-left">
+<div class="col-md-4 h-100">
+    <div class="book-card bg-white p-3 text-left h-100">
         <a href="#"><img src="{{ book.cover_image.url }}" class="img-fluid mb-3" alt="Книга"></a>
         <div class="tags mb-2">
             {% for tag in book.tags.all|slice:":2"  %}
