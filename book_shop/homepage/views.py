@@ -14,7 +14,7 @@ def index(request):
         & Q(category__is_published=True))
     ).order_by(
         '-created_at'
-    )[:3]
+    )
 
     categories = Category.objects.prefetch_related(
         Prefetch('book_set', queryset=Book.objects.filter(

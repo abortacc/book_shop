@@ -4,7 +4,9 @@
 <div class="container mt-4">
     <h3 class="pb-3">Новые</h3>
     <div class="row">
-        {% include "includes/book_card.html" %}
+        {% for book in book_list_new|slice:":3" %}
+            {% include "includes/book_card.html" %}
+        {% endfor %}
     </div>
     
     {% for category in categories %}
