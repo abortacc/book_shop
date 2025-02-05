@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="{{ book.cover_image.url }}" alt="Book Cover" class="book-image">
+            </div>
+            <div class="col-md-8">
+                <h1>{{ book.title }}</h1>
+                <p><strong>Автор: </strong>{{ book.author.name }}</p>
+                <div class="price">{{ book.price }} ₽</div>
+                <button class="btn btn-custom btn-sm">Купить</button>
+                <button class="btn btn-secondary">Желаемое</button>
+            </div>
+        </div>
+        <div class="description">
+            <h3>Описание:</h3>
+            <p>Если программирование — магия, то веб-скрапинг — настоящее колдовство. Написав простую автоматизированную программу, можно отправлять запросы веб-серверам, получать ответы с данными, а затем анализировать эти данные и извлекать необходимую информацию. Это обновленное третье издание книги не только познакомит вас с веб-скрапингом, но и послужит исчерпывающим руководством по сбору практически любых видов данных в современном Интернете. В части I основное внимание уделено механике веб-скрапинга: как с помощью Python отправлять запросы веб-серверам, обрабатывать ответы и автоматизировать взаимодействие с сайтами. В части II исследуются более конкретные инструменты и приложения, которые пригодятся при любом сценарии веб-скрапинга.</p>
+        </div>
+        <div class="related-books">
+            <h2>Из этой категории</h2>
+            {% include "includes/small_book_card.html" %}
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+{% endblock content %}

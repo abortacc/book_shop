@@ -35,3 +35,15 @@ def catalog(request, slug_name=None):
             'book_list': page_obj
         }
     return render(request, template_name, context)
+
+
+def details(request, pk):
+    template_name = 'catalog/details.html'
+    book = get_object_or_404(
+        Book.objects.all(),
+        pk=pk
+    )
+    context = {
+        "book": book
+    }
+    return render(request, template_name, context)
