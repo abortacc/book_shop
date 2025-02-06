@@ -43,7 +43,15 @@ def details(request, pk):
         Book.objects.all(),
         pk=pk
     )
+    related_books = Book.objects.all().exclude(
+        id=pk
+    ).filter(
+        category__title__exact=book.category.title
+    ).order_by(
+        '-created_at'
+    )[:6]
     context = {
-        "book": book
+        "book": book,
+        "related_books": related_books
     }
     return render(request, template_name, context)

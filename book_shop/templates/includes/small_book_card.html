@@ -1,6 +1,6 @@
 <div class="col-md-2 h-100">
     <div class="small-book-card p-2 h-100">
-        <a href="#"><img src={{ book.cover_image.url }} alt="Книга"></a>
+        <a href="{% url 'catalog:details' book.id %}"><img src={{ book.cover_image.url }} alt="Книга"></a>
         <p class="author">{{ book.author }}</p>
         <p>{{ book.title|truncatechars:30 }}</p>
     </div>
