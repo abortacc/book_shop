@@ -9,6 +9,7 @@ class BookAdmin(admin.ModelAdmin):
         'category',
         'author',
         'publisher',
+        'page_count',
         'book_format',
         'is_published',
         'stock',
