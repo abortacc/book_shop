@@ -9,6 +9,14 @@
             </div>
             <div class="col-md-8">
                 <h1>{{ book.title }}</h1>
+
+                <div class="justify-content-left align-items-center mb-5">
+                    <span class="badge custom-badge me-2">{{ book.category.title }}</span>
+                    {% for tag in book.tags.all|slice:":5"  %}
+                        <span class="badge custom-badge me-1">{{ tag.name }}</span>
+                    {% endfor %}
+                </div>
+
                 <p><strong>Автор: </strong>{{ book.author.name }}</p>
                 <div class="price">{{ book.price }} ₽</div>
                 <button class="btn btn-custom btn-sm">Купить</button>
@@ -23,6 +31,16 @@
             <h2 class="mt-5 pb-3">Из этой категории</h2>
             {% for book in related_books %}
                 {% include "includes/small_book_card.html" %}
+            {% empty %}
+                Книг из этой категории нет :(
+            {% endfor %}
+        </div>
+        <div class="row">
+            <h2 class="mt-5 pb-3">Похожие по содержанию</h2>
+            {% for book in related_tag_books %}
+                {% include "includes/small_book_card.html" %}
+            {% empty %}
+                Похожих книг нет :(
             {% endfor %}
         </div>
     </div>

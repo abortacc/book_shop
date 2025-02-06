@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from django.db.models import Q, Prefetch
+from django.db.models import Q, Prefetch, Count
 from django.core.paginator import Paginator
 from .models import Book, Category
 
@@ -46,12 +46,25 @@ def details(request, pk):
     related_books = Book.objects.all().exclude(
         id=pk
     ).filter(
-        category__title__exact=book.category.title
+        category__title__exact=book.category.title,
+        is_published=True
     ).order_by(
         '-created_at'
     )[:6]
+    related_tag_books = Book.objects.all().prefetch_related(
+        'tags'
+    ).filter(
+        tags__in=book.tags.all()
+    ).annotate(
+        matching_tags_count=Count('tags', filter=Q(tags__in=book.tags.all()))
+    ).filter(
+        matching_tags_count__gte=2
+    ).exclude(
+        id=pk
+    )[:6]
     context = {
         "book": book,
-        "related_books": related_books
+        "related_books": related_books,
+        "related_tag_books": related_tag_books
     }
     return render(request, template_name, context)
