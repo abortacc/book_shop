@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator
 from core.models.base import (
     BaseModel,
     PublishedModel,
@@ -110,6 +111,17 @@ class Book(BaseModel, PublishedModel, StockModel):
         null=True,
         blank=True,
         verbose_name='Категория'
+    )
+    page_count = models.IntegerField(
+        blank=True,
+        null=True,
+        validators=[MinValueValidator(1)],
+        verbose_name='Количество страниц'
+    )
+    description = models.TextField(
+        max_length=4096,
+        blank=True,
+        verbose_name='Описание'
     )
     tags = models.ManyToManyField(
         Tag,
