@@ -35,7 +35,7 @@
                     <div class="inblock-price">{{ book.price }} ₽</div>
                     <div class="checkbox-label">
                         <input type="checkbox" checked>
-                        <label>Физическая копия</label>
+                        <label>{{ book.get_book_format_display }}</label>
                     </div>
 
                     <div class="buttons-container">
@@ -73,9 +73,5 @@
         </div>
         {% endif %}
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 {% endblock content %}
