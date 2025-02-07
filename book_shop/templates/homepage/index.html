@@ -10,7 +10,9 @@
     </div>
     
     {% for category in categories %}
-        <h3 class="mt-5 pb-3"><a href="{% url 'catalog:catalog_category' category.slug %}">{{ category.title }}</a></h3>
+    <a href="{% url 'catalog:catalog_category' category.slug %}" class="text-decoration-none">
+        <h3 class="mt-5 pb-3">{{ category.title }}</h3>
+    </a>
         <div class="row">
             {% for book in category.book_set.all|slice:":6" %}
                 {% include "includes/small_book_card.html" %}
