@@ -25,12 +25,27 @@
                 {% if book.page_count %}
                     <p><strong>Кол-во страниц: </strong>{{ book.page_count }}</p>
                 {% endif %}
-                <div class="price">{{ book.price }} ₽</div>
 
-                <button class="btn btn-custom btn-sm"
-                {% if not book.is_avaible %} disabled {% endif %}
-                >Купить</button>
-                <button class="btn btn-custom-desired btn-sm">Желаемое</button>
+                <div class="price-block">
+                    {% if book.is_avaible %}
+                        <div class="in-stock"><i class="fas fa-check"></i> В наличии </div>
+                    {% else %}
+                        <div class="not-in-stock"><i class="fas fa-check"></i> Не в наличии </div>
+                    {% endif %}
+                    <div class="inblock-price">{{ book.price }} ₽</div>
+                    <div class="checkbox-label">
+                        <input type="checkbox" checked>
+                        <label>Физическая копия</label>
+                    </div>
+
+                    <div class="buttons-container">
+                        <button class="btn btn-custom btn-sm"
+                        {% if not book.is_avaible %} disabled {% endif %}
+                        >Купить</button>
+                        <button class="btn btn-custom-desired btn-sm">Желаемое</button>
+                    </div>
+                </div>
+                
             </div>
         </div>
         <div class="description">
