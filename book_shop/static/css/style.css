@@ -121,6 +121,18 @@ h3 {
     border-radius: 5px;
 }
 
+.btn-custom-desired {
+    background-color: #C1BBFF;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+.btn-custom-desired:hover {
+    color: white;
+}
+
 .badge {
     font-size: 0.9em;
     padding: 5px 10px;

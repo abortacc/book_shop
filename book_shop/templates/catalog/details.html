@@ -18,33 +18,45 @@
                 </div>
 
                 <p><strong>Автор: </strong>{{ book.author.name }}</p>
-                <p><strong>Издательство: </strong>{{ book.publisher.name }}</p>
-                <p><strong>Кол-во страниц: </strong>{{ book.page_count }}</p>
+                {% if book.publisher.name %}
+                    <p><strong>Издательство: </strong>{{ book.publisher.name }}</p>
+                {% endif %}
+
+                {% if book.page_count %}
+                    <p><strong>Кол-во страниц: </strong>{{ book.page_count }}</p>
+                {% endif %}
                 <div class="price">{{ book.price }} ₽</div>
-                <button class="btn btn-custom btn-sm">Купить</button>
-                <button class="btn btn-secondary">Желаемое</button>
+
+                <button class="btn btn-custom btn-sm"
+                {% if not book.is_avaible %} disabled {% endif %}
+                >Купить</button>
+                <button class="btn btn-custom-desired btn-sm">Желаемое</button>
             </div>
         </div>
         <div class="description">
             <h3>Описание:</h3>
-            <p>{{ book.description }}</p>
+            {% if book.description %}
+                <p>{{ book.description }}</p>
+            {% else %}
+                <p>Книга "{{ book.title }}", написанная {{ book.author.name }}.</p>
+            {% endif %}
         </div>
+        {% if related_books %}
         <div class="row">
             <h2 class="mt-5 pb-3">Из этой категории</h2>
             {% for book in related_books %}
                 {% include "includes/small_book_card.html" %}
-            {% empty %}
-                Книг из этой категории нет :(
             {% endfor %}
         </div>
+        {% endif %}
+        {% if related_tag_books %}
         <div class="row">
             <h2 class="mt-5 pb-3">Похожие по содержанию</h2>
-            {% for book in related_tag_books %}
-                {% include "includes/small_book_card.html" %}
-            {% empty %}
-                Похожих книг нет :(
-            {% endfor %}
+                {% for book in related_tag_books %}
+                    {% include "includes/small_book_card.html" %}
+                {% endfor %}
         </div>
+        {% endif %}
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
