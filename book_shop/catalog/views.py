@@ -49,7 +49,7 @@ class BookDetailView(DetailView):
             id=book.id
         ).order_by(
             '-created_at'
-        )[:6]
+        )[:6].select_related('category')
         context['related_tag_books'] = Book.objects.prefetch_related(
             'tags'
         ).filter(
