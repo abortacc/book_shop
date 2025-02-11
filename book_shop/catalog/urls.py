@@ -11,5 +11,5 @@ urlpatterns = [
         views.CatalogListView.as_view(),
         name='catalog_category'
     ),
-    path('details/<int:pk>/', views.details, name='details')
+    path('details/<int:pk>/', views.BookDetailView.as_view(), name='details')
 ]
