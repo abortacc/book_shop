@@ -1,5 +1,13 @@
 {% extends "base.html" %}
-
 {% block content %}
-  <h2>Вы вышли из системы!</h2>
-{% endblock %} 
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card text-center" style="max-width: 500px; width: 100%;">
+        <div class="card-body">
+            <i class="fas fa-sign-out-alt fa-3x text-primary mb-4"></i>
+            <h2 class="card-title text-success">Вы вышли из системы!</h2>
+            <p class="card-text text-muted">Спасибо, что воспользовались нашим сервисом. До встречи!</p>
+            <a href="{% url 'homepage:index' %}" class="btn btn-custom btn-sm">Вернуться на главную</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,5 +1,16 @@
+html, body {
+    height: 100%; /* Высота всей страницы */
+    margin: 0; /* Убираем стандартные отступы */
+}
+
 body {
+    display: flex;
+    flex-direction: column;
     font-family: 'Poppins', sans-serif;
+}
+
+main {
+    flex: 1; /* Занимает все доступное пространство */
 }
 
 #brand-k {
