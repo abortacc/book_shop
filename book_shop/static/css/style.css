@@ -330,3 +330,7 @@ h3 {
 .register-container form button:hover {
     background-color: #218838;
 }
+.sidebar .nav-link.active {
+    color: #28a745;
+    font-weight: bold;
+}

@@ -9,6 +9,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('homepage.urls', namespace='homepage')),
     path('catalog/', include('catalog.urls', namespace='catalog')),
+    path('profile/', include('accounts.urls', namespace='accounts')),
     path('auth/', include('django.contrib.auth.urls')),
     path(
         'auth/registration/',

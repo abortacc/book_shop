@@ -34,7 +34,7 @@
                                 <img src="{% static "img/avatar.png" %}" alt="Avatar" class="avatar">
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Мой кабинет</a></li>
+                                <li><a class="dropdown-item" href="{% url 'accounts:profile' %}">Мой кабинет</a></li>
                                 <li><a class="dropdown-item" href="#">Мои книги</a></li>
                                 <li><a class="dropdown-item" href="#">Настройки</a></li>
                                 <li>

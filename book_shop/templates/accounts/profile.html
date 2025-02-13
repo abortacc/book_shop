@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-white sidebar collapse">
+            <div class="position-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">
+                            <i class="fas fa-user me-2"></i> Профиль
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-box me-2"></i> Мои заказы
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-heart me-2"></i> Желаемое
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-cog me-2"></i> Настройки
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-danger" href="{% url 'logout' %}">
+                            <i class="fas fa-sign-out-alt me-2"></i> Выйти
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2">Мой кабинет</h1>
+            </div>
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-white">
+                    <i class="fas fa-user me-2"></i> Информация о профиле
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            <img src="{% static 'img/avatar.png' %}" alt="Avatar" class="img-fluid me-3 mb-3" style="width: 150px; height: 150px;">
+                            <button class="btn btn-custom btn-sm">Изменить аватар</button>
+                        </div>
+                        <div class="col-md-8">
+                            <p><strong>Имя:</strong> {{ user.first_name }}</p>
+                            <p><strong>Фамилия:</strong> {{ user.last_name }}</p>
+                            <p><strong>Email:</strong> {{ user.email }}</p>
+                            <p><strong>Дата регистрации:</strong> {{ user.date_joined|date:"d.m.Y" }}</p>
+                            <a href="#" class="btn btn-custom btn-sm">Редактировать профиль</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-white">
+                    <i class="fas fa-chart-line me-2"></i> Статистика
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="me-3">
+                                    <i class="fas fa-star fa-2x text-success"></i>
+                                </div>
+                                <div>
+                                    <h5>{{ user.rating }}</h5>
+                                    <p class="mb-0">Рейтинг</p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="me-3">
+                                    <i class="fas fa-comment fa-2x text-success"></i>
+                                </div>
+                                <div>
+                                    <h5>{{ user.comments_count }}</h5>
+                                    <p class="mb-0">Комментариев</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="me-3">
+                                    <i class="fas fa-trophy fa-2x text-success"></i>
+                                </div>
+                                <div>
+                                    <h5>{{ user.awards_count }}</h5>
+                                    <p class="mb-0">Наград</p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="me-3">
+                                    <i class="fas fa-users fa-2x text-success"></i>
+                                </div>
+                                <div>
+                                    <h5>{{ user.followers_count }}</h5>
+                                    <p class="mb-0">Подписчиков</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-white">
+                    <i class="fas fa-box me-2"></i> Последние заказы
+                </div>
+                <div class="card-body">
+                    {% if orders %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Дата заказа</th>
+                                        <th>Статус</th>
+                                        <th>Сумма</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for order in orders %}
+                                        <tr>
+                                            <td>{{ order.id }}</td>
+                                            <td>{{ order.created_at|date:"d.m.Y" }}</td>
+                                            <td>
+                                                <span class="badge {% if order.status == 'completed' %}bg-success{% else %}bg-warning{% endif %}">
+                                                    {{ order.get_status_display }}
+                                                </span>
+                                            </td>
+                                            <td>{{ order.total_price }} ₽</td>
+                                            <td>
+                                                <a href="#" class="btn btn-sm btn-outline-success">Подробнее</a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p class="text-muted">У вас пока нет заказов.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock content %}
