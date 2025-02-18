@@ -1,4 +1,4 @@
-from django.db.models import Q, Prefetch
+from django.db.models import Prefetch
 from django.views.generic import ListView
 from catalog.models import Book, Category
 
@@ -9,11 +9,14 @@ class IndexListView(ListView):
 
     def get_queryset(self):
         return Book.objects.select_related(
-            'author', 'category'
+            'category'
         ).prefetch_related(
             'tags'
+        ).only(
+            'id', 'title', 'category__title'
         ).filter(
-            Q(is_published=True) & Q(category__is_published=True)
+            is_published=True,
+            category__is_published=True
         ).order_by('-created_at')
 
     def get_context_data(self, **kwargs):
@@ -23,7 +26,8 @@ class IndexListView(ListView):
                 'book_set',
                 queryset=Book.objects.filter(
                     is_published=True
-                ).order_by('-created_at')
+                ).order_by('-created_at')[:6],
+                to_attr='prefatched_books'
             )
         ).filter(
             is_published=True,

@@ -14,7 +14,7 @@
         <h3 class="mt-5 pb-3">{{ category.title }}</h3>
     </a>
         <div class="row">
-            {% for book in category.book_set.all|slice:":6" %}
+            {% for book in category.prefatched_books %}
                 {% include "includes/small_book_card.html" %}
             {% empty %}
                 <p>В этой категории пока нет книг :(</p>
