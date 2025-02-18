@@ -24,8 +24,13 @@ class CatalogListView(ListView):
             self.category = category
             return category.book_set.all()
         else:
-            return Book.objects.all().filter(
-                Q(is_published=True) & Q(category__is_published=True)
+            return Book.objects.select_related(
+                'category'
+            ).prefetch_related(
+                'tags'
+            ).filter(
+                is_published=True,
+                category__is_published=True
             ).order_by('id')
 
     def get_context_data(self, **kwargs):
@@ -55,7 +60,7 @@ class BookDetailView(DetailView):
         ).filter(
             tags__in=book.tags.all()
         ).annotate(
-            matching_tags_count=Count('tags', filter=Q(tags__in=book.tags.all()))
+            matching_tags_count=Count('tags')
         ).filter(
             matching_tags_count__gte=2
         ).exclude(
