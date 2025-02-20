@@ -38,7 +38,11 @@
 
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Мой кабинет</h1>
+                {% if is_own_profile  %}
+                    <h1 class="h2">Мой кабинет</h1>
+                {% else %}
+                    <h1 class="h2">Кабинет {{ user.username }}</h1>
+                {% endif %}
             </div>
 
             <div class="card shadow-sm mb-4">
@@ -116,6 +120,7 @@
                 </div>
             </div>
 
+            {% if is_own_profile  %}
             <div class="card shadow-sm mb-4">
                 <div class="card-header bg-white">
                     <i class="fas fa-box me-2"></i> Последние заказы
@@ -157,6 +162,7 @@
                     {% endif %}
                 </div>
             </div>
+            {% endif %}
         </main>
     </div>
 </div>
