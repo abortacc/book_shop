@@ -14,6 +14,7 @@ class ProfileTemplateView(LoginRequiredMixin, DetailView):
     template_name = 'accounts/profile.html'
     slug_field = 'username'
     slug_url_kwarg = 'username'
+    context_object_name = 'user'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

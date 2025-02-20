@@ -5,9 +5,6 @@ from core.models.base import BaseModel, PublishedModel
 from catalog.models import Book
 
 
-User = get_user_model()
-
-
 class CustomUser(AbstractUser):
     rating = models.FloatField(
         default=0.0,
@@ -18,20 +15,25 @@ class CustomUser(AbstractUser):
         upload_to='users/avatars/',
         default='users/avatars/def_avatar.png',
         blank=True,
-        null=True
+        null=True,
+        verbose_name='Аватар'
     )
     followers = models.ManyToManyField(
         'self',
         symmetrical=False,
         related_name='following',
-        blank=True
+        blank=True,
+        verbose_name='Подписчики'
     )
 
     def __str__(self):
         return self.username
 
 
-class Comment(models.Model, BaseModel, PublishedModel):
+User = get_user_model()
+
+
+class Comment(BaseModel, PublishedModel):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -66,8 +68,15 @@ class Award(models.Model):
         verbose_name='Получил'
     )
 
+    class Meta:
+        verbose_name = 'Награды'
+        verbose_name_plural = 'награды'
 
-class Order(models.Model, BaseModel):
+    def __str__(self):
+        return self.name
+
+
+class Order(BaseModel):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -100,3 +109,10 @@ class Library(models.Model):
         related_name='purchased_by',
         verbose_name='Книги'
     )
+
+    class Meta:
+        verbose_name = 'Библиотека'
+        verbose_name_plural = 'библиотеки'
+
+    def __str__(self):
+        return f'Библиотека пользователя {self.user.username}'
