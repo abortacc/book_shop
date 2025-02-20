@@ -12,26 +12,32 @@ class CatalogListView(ListView):
     def get_queryset(self):
         slug_name = self.kwargs.get('slug_name')
         if slug_name:
-            category = get_object_or_404(
-                Category.objects.prefetch_related(
-                    Prefetch('book_set', queryset=Book.objects.filter(
-                        is_published=True
-                    ).order_by('id', '-created_at'))
-                ),
-                slug=slug_name,
-                is_published=True
-            )
-            self.category = category
-            return category.book_set.all()
+            return self.get_books_by_category(slug_name)
         else:
-            return Book.objects.select_related(
-                'category'
-            ).prefetch_related(
-                'tags'
-            ).filter(
-                is_published=True,
-                category__is_published=True
-            ).order_by('id')
+            return self.get_all_books()
+
+    def get_books_by_category(self, slug_name):
+        category = get_object_or_404(
+            Category.objects.prefetch_related(
+                Prefetch('book_set', queryset=Book.objects.filter(
+                    is_published=True
+                ).order_by('id', '-created_at'))
+            ),
+            slug=slug_name,
+            is_published=True
+        )
+        self.category = category
+        return category.book_set.all()
+
+    def get_all_books(self):
+        return Book.objects.select_related(
+            'category'
+        ).prefetch_related(
+            'tags'
+        ).filter(
+            is_published=True,
+            category__is_published=True
+        ).order_by('id')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
