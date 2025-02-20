@@ -1,13 +1,65 @@
 {% extends "base.html" %}
-{% load static %}
 
 {% block content %}
-<div class="container">
-    <h2>Редактирование профиля</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-custom">Сохранить изменения</button>
-    </form>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header text-white">
+                    <h2 class="mb-0">Редактирование профиля</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="form-group">
+                            <label for="{{ form.first_name.id_for_label }}" class="font-weight-bold">Имя</label>
+                            {{ form.first_name }}
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.last_name.id_for_label }}" class="font-weight-bold">Фамилия</label>
+                            {{ form.last_name }}
+                        </div>
+                        <div class="form-group mt-3 mb-3">
+                            <label for="{{ form.email.id_for_label }}" class="font-weight-bold">Email</label>
+                            {{ form.email }}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ form.avatar.id_for_label }}" class="font-weight-bold">Аватар</label>
+                            {% if request.user.avatar %}
+                                <div class="mb-3">
+                                    <img src="{{ request.user.avatar.url }}" alt="Текущий аватар" class="img-thumbnail" style="max-width: 150px; border-radius: 10px;">
+                                    <small class="form-text text-muted">Текущий аватар</small>
+                                </div>
+                            {% endif %}
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="{{ form.avatar.id_for_label }}" name="{{ form.avatar.name }}" onchange="previewImage(this);">
+                                <label class="custom-file-label" for="{{ form.avatar.id_for_label }}">Выберите новый аватар</label>
+                            </div>
+                            <img id="avatar-preview" class="img-thumbnail mt-3" style="max-width: 150px; border-radius: 10px; display: none;">
+                            <small class="form-text text-muted">Поддерживаются форматы: PNG, JPG, GIF</small>
+                        </div>
+
+                        <button type="submit" class="btn btn-custom btn-block mt-4">Сохранить изменения</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script>
+    function previewImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('avatar-preview').src = e.target.result;
+                document.getElementById('avatar-preview').style.display = 'block';
+            }
+            reader.readAsDataURL(input.files[0]);
+            input.nextElementSibling.innerText = input.files[0].name;
+        }
+    }
+</script>
 {% endblock %}
