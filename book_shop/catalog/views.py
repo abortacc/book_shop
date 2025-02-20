@@ -42,31 +42,36 @@ class CatalogListView(ListView):
 
 class BookDetailView(DetailView):
     model = Book
+    context_object_name = 'book'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        book = self.object
-        context['book'] = book
-        context['related_books'] = Book.objects.filter(
-            category=book.category,
+    def get_related_books(self, book):
+        return Book.objects.filter(
+            category=self.object.category,
             is_published=True
         ).exclude(
-            id=book.id
+            id=self.object.id
         ).order_by(
             '-created_at'
         )[:6].select_related('category')
-        context['related_tag_books'] = Book.objects.prefetch_related(
+
+    def get_related_tag_books(self, book):
+        return Book.objects.prefetch_related(
             'tags'
         ).filter(
-            tags__in=book.tags.all()
+            tags__in=self.object.tags.all()
         ).annotate(
             matching_tags_count=Count('tags')
         ).filter(
             matching_tags_count__gte=2
         ).exclude(
-            id=book.id
+            id=self.object.id
         ).order_by(
             '-matching_tags_count',
             '-created_at'
         )[:6]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['related_books'] = self.get_related_books(self.object)
+        context['related_tag_books'] = self.get_related_tag_books(self.object)
         return context
