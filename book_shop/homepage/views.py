@@ -8,6 +8,9 @@ class IndexListView(ListView):
     context_object_name = 'book_list_new'
 
     def get_queryset(self):
+        return self.get_newest_books()
+
+    def get_newest_books(self):
         return Book.objects.select_related(
             'category'
         ).prefetch_related(
@@ -19,9 +22,8 @@ class IndexListView(ListView):
             category__is_published=True
         ).order_by('-created_at')
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['categories'] = Category.objects.prefetch_related(
+    def get_categories_with_books(self):
+        return Category.objects.prefetch_related(
             Prefetch(
                 'book_set',
                 queryset=Book.objects.filter(
@@ -34,4 +36,7 @@ class IndexListView(ListView):
             is_on_main=True
         )
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = self.get_categories_with_books()
         return context
