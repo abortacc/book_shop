@@ -40,7 +40,15 @@ class Comment(BaseModel, PublishedModel):
         related_name='comments',
         verbose_name='Пользователь'
     )
-    text = models.TextField(max_length=2056, verbose_name='Текст')
+    book = models.ForeignKey(
+        'catalog.Book',
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        related_name='comments',
+        verbose_name='Книга'
+    )
+    text = models.TextField(max_length=2056, verbose_name='Комментарий')
 
     class Meta:
         verbose_name = 'Комментарий'

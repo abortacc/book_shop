@@ -53,6 +53,13 @@ main {
     object-fit: cover;
 }
 
+.c-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
 .nav-item-with-avatar {
     display: flex;
     align-items: center;

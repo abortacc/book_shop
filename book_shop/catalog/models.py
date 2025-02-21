@@ -145,14 +145,6 @@ class Book(BaseModel, PublishedModel, StockModel):
         null=True,
         blank=True
     )
-    comment = models.ForeignKey(
-        'accounts.Comment',
-        on_delete=models.CASCADE,
-        blank=True,
-        null=True,
-        related_name='comments',
-        verbose_name='Комментарий'
-    )
 
     class Meta:
         verbose_name = 'Книга'

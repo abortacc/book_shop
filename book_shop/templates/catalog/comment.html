@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+{% block title %}
+  {% if '/edit_comment/' in request.path %}
+    Редактирование комментария
+  {% else %}
+    Удаление комментария
+  {% endif %}
+{% endblock %}
+{% block content %}
+  {% if user.is_authenticated %}
+    <div class="col d-flex justify-content-center">
+      <div class="card mt-5" style="width: 40rem;">
+        <div class="card-header">
+          {% if '/edit_comment/' in request.path %}
+            Редактирование комментария
+          {% else %}
+            Удаление комментария
+          {% endif %}
+        </div>
+        <div class="card-body">
+          <form method="post"
+            {% if '/edit_comment/' in request.path %}
+              action="{% url 'catalog:edit_comment' comment.book.id comment.id %}"
+            {% endif %}>
+            {% csrf_token %}
+            {% if not '/delete_comment/' in request.path %}
+              {% bootstrap_form form %}
+            {% else %}
+              <p>{{ comment.text }}</p>
+            {% endif %}
+            <input class="btn btn-custom btn-sm" type="submit" value="Отправить">
+          </form>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}

@@ -1,7 +1,18 @@
-from django.shortcuts import get_object_or_404
-from django.db.models import Q, Prefetch, Count
-from django.views.generic import ListView, DetailView
+from django.shortcuts import get_object_or_404, redirect
+from django.apps import apps
+from django.db.models import Prefetch, Count
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView
+)
 from .models import Book, Category
+from accounts.models import Comment
+from .forms import CommentForm
 
 
 class CatalogListView(ListView):
@@ -80,4 +91,41 @@ class BookDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['related_books'] = self.get_related_books(self.object)
         context['related_tag_books'] = self.get_related_tag_books(self.object)
+        context['comments'] = self.object.comments.all()
+        context['form'] = CommentForm()
         return context
+
+
+class CommentMixin(LoginRequiredMixin):
+    model = Comment
+    template_name = 'catalog/comment.html'
+    pk_url_kwarg = 'comment_id'
+
+    def dispatch(self, request, *args, **kwargs):
+        comment = get_object_or_404(
+            Comment,
+            pk=kwargs['comment_id']
+        )
+        if comment.user != request.user:
+            return redirect('catalog:details', pk=kwargs['pk'])
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_success_url(self):
+        return reverse_lazy('catalog:details', kwargs={'pk': self.kwargs['pk']})
+
+
+class CommentCreateView(CommentMixin, CreateView):
+    form_class = CommentForm
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.instance.book = get_object_or_404(Book, pk=self.kwargs['pk'])
+        return super().form_valid(form)
+
+
+class CommentUpdateView(CommentMixin, UpdateView):
+    form_class = CommentForm
+
+
+class CommentDeleteView(CommentMixin, DeleteView):
+    pass
