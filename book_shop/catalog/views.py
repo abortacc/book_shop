@@ -114,13 +114,17 @@ class CommentMixin(LoginRequiredMixin):
         return reverse_lazy('catalog:details', kwargs={'pk': self.kwargs['pk']})
 
 
-class CommentCreateView(CommentMixin, CreateView):
+class CommentCreateView(CreateView):
     form_class = CommentForm
+    template_name = 'catalog/comment.html'
 
     def form_valid(self, form):
         form.instance.user = self.request.user
         form.instance.book = get_object_or_404(Book, pk=self.kwargs['pk'])
         return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('catalog:details', kwargs={'pk': self.kwargs['pk']})
 
 
 class CommentUpdateView(CommentMixin, UpdateView):

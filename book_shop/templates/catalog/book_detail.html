@@ -56,12 +56,12 @@
                 <p>Книга "{{ book.title }}", написанная {{ book.author.name }}.</p>
             {% endif %}
         </div>
-        {% if comments %}
-            <div>
-                <h3 class="mb-2 mt-5">Комментарии:</h3>
-                {% include "includes/comments.html" %}
-            </div>
-        {% endif %}
+
+        <div>
+        <h3 class="mb-2 mt-5">Комментарии:</h3>
+            {% include "includes/comments.html" %}
+        </div>
+
         {% if related_books %}
         <div class="row">
             <h2 class="mt-5 pb-3">Из этой категории</h2>
