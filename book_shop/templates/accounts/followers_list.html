@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1>Подписчики {{ user.username }}</h1>
+    <div class="row">
+        {% for follower in followers %}
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <img src="{{ follower.avatar.url }}" alt="Avatar" class="rounded-circle me-3" style="width: 50px; height: 50px;">
+                            <div>
+                                <h5 class="mb-0"><a href="{% url 'accounts:profile' follower.username %}">{{ follower.username }}</a></h5>
+                                <small>{{ follower.first_name }} {{ follower.last_name }}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <p class="text-muted">Пока нет подписчиков</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

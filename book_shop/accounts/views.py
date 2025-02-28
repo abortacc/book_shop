@@ -1,6 +1,7 @@
 from django.urls import reverse
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import UpdateView, DetailView
+from django.views.generic import UpdateView, DetailView, RedirectView, ListView
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
 from .forms import ProfileEditForm
@@ -35,3 +36,43 @@ class EditProfileUpdateView(LoginRequiredMixin, UpdateView):
             'accounts:profile',
             kwargs={'username': self.request.user.username}
         )
+
+
+class FollowerUserView(LoginRequiredMixin, RedirectView):
+    permanent = False
+
+    def get_redirect_url(self, *args, **kwargs):
+        user_to_follow = get_object_or_404(User, username=self.kwargs['username'])
+        if self.request.user != user_to_follow:
+            self.request.user.followers.add(user_to_follow)
+        return reverse('accounts:profile', kwargs={'username': self.kwargs['username']})
+
+
+class FollowersListView(ListView):
+    model = User
+    template_name = 'accounts/followers_list.html'
+    context_object_name = 'followers'
+
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.kwargs['username'])
+        return user.followers.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user'] = get_object_or_404(User, username=self.kwargs['username'])
+        return context
+
+
+class FollowingListView(ListView):
+    model = User
+    template_name = 'accounts/following_list.html'
+    context_object_name = 'following'
+
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.kwargs['username'])
+        return user.following.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user'] = get_object_or_404(User, username=self.kwargs['username'])
+        return context
