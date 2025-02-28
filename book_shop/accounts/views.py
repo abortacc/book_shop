@@ -38,13 +38,22 @@ class EditProfileUpdateView(LoginRequiredMixin, UpdateView):
         )
 
 
-class FollowerUserView(LoginRequiredMixin, RedirectView):
+class FollowUserView(LoginRequiredMixin, RedirectView):
     permanent = False
 
     def get_redirect_url(self, *args, **kwargs):
         user_to_follow = get_object_or_404(User, username=self.kwargs['username'])
         if self.request.user != user_to_follow:
             self.request.user.followers.add(user_to_follow)
+        return reverse('accounts:profile', kwargs={'username': self.kwargs['username']})
+
+
+class UnfollowUserView(LoginRequiredMixin, RedirectView):
+    permanent = False
+
+    def get_redirect_url(self, *args, **kwargs):
+        user_to_unfollow = get_object_or_404(User, username=self.kwargs['username'])
+        self.request.user.followers.remove(user_to_unfollow)
         return reverse('accounts:profile', kwargs={'username': self.kwargs['username']})
 
 
