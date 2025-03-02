@@ -87,3 +87,26 @@ class FollowingListView(ListView):
         context = super().get_context_data(**kwargs)
         context['user'] = get_object_or_404(User, username=self.kwargs['username'])
         return context
+
+
+class AddToWishlistView(RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        book = get_object_or_404(Book, id=self.kwargs['book_id'])
+        self.request.user.wishlist.add(book)
+        return reverse_lazy('catalog:details', kwargs={'pk': self.kwargs['book_id']})
+
+
+class RemoveFromWishlistView(LoginRequiredMixin, RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        book = get_object_or_404(Book, id=self.kwargs['book_id'])
+        self.request.user.wishlist.remove(book)
+        return reverse_lazy('catalog:details', kwargs={'pk': self.kwargs['book_id']})
+
+
+class WishlistListView(ListView):
+    model = User
+    template_name = 'accounts/wishlist.html'
+    context_object_name = 'user'
+
+    def get_queryset(self):
+        return get_object_or_404(User, username=self.kwargs['username'])

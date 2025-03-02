@@ -42,7 +42,11 @@
                         <button class="btn btn-custom btn-sm"
                         {% if not book.is_avaible %} disabled {% endif %}
                         >Купить</button>
-                        <button class="btn btn-custom-desired btn-sm">Желаемое</button>
+                        {% if book in request.user.wishlist.all %}
+                            <a href="{% url 'accounts:remove_from_wishlist' book.id %}" class="btn btn-custom-desired btn-sm">Убрать из желаемого</a>
+                        {% else %}
+                            <a href="{% url 'accounts:add_to_wishlist' book.id %}" class="btn btn-custom-desired btn-sm">Добавить в желаемое</a>
+                        {% endif %}
                     </div>
                 </div>
                 

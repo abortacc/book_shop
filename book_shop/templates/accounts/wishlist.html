@@ -1,22 +1,21 @@
 {% extends "base.html" %}
 
+
 {% block content %}
 <div class="container">
-    {% if category %}
-        <h3 class="mt-5 pb-3">{{ category.title }}</h3>
-    {% else %}
-        <h3 class="mt-5 pb-3">Все книги</h3>
-    {% endif %}
+    <h3 class="mt-5 pb-3">Желаемые книги {{ user.username }}</h3>
     
     <div class="row mt-4 justify-content-center">
         <div class="col-12 col-md-9">
             <div class="row g-4">
-                {% for book in book_list  %}
+                {% for book in user.wishlist.all %}
                     {% include "includes/catalog_card.html" %}
+                {% empty %}
+                    <p>В желаемых нет книг :(</p>
                 {% endfor %}
             </div>
         </div>
     </div>
-    {% include "includes/paginator.html" %}
 </div>
+
 {% endblock content %}
