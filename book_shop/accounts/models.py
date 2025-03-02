@@ -25,6 +25,12 @@ class CustomUser(AbstractUser):
         blank=True,
         verbose_name='Подписчики'
     )
+    wishlist = models.ManyToManyField(
+        Book,
+        blank=True,
+        related_name='desired_by',
+        verbose_name='Желаемое'
+    )
 
     def __str__(self):
         return self.username

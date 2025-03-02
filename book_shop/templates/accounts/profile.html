@@ -130,10 +130,10 @@
 
                 {% if not is_own_profile %}
                     <div class="mt-3">
-                        {% if request.user in user.following %}
-                            <a href="" class="btn btn-outline-danger">Отписаться</a>
+                        {% if user in request.user.following.all %}
+                            <a href="{% url 'accounts:unfollow_user' user.username %}" class="btn btn-outline-danger">Отписаться</a>
                         {% else %}
-                            <a href="" class="btn btn-success">Подписаться</a>
+                            <a href="{% url 'accounts:follow_user' user.username %}" class="btn btn-success">Подписаться</a>
                         {% endif %}
                     </div>
                 {% endif %}
