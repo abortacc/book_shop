@@ -1,5 +1,6 @@
 from django.urls import reverse, reverse_lazy
 from django.shortcuts import get_object_or_404
+from django.db.models import Sum
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import UpdateView, DetailView, RedirectView, ListView
 from django.contrib.auth import get_user_model
@@ -110,3 +111,9 @@ class WishlistListView(ListView):
 
     def get_queryset(self):
         return get_object_or_404(User, username=self.kwargs['username'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.get_queryset()
+        context['wishlist_total'] = user.wishlist.aggregate(total=Sum('price'))['total'] or 0
+        return context
