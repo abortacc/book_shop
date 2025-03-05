@@ -141,6 +141,7 @@ class Book(BaseModel, PublishedModel, StockModel):
     )
     cover_image = models.ImageField(
         upload_to='books/covers/',
+        default='books/covers/default_cover.png',
         verbose_name='Обложка книги',
         null=True,
         blank=True
