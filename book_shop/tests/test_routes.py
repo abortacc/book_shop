@@ -98,3 +98,9 @@ class TestComments(TestCase):
                     )
                     response = self.client.get(url)
                     self.assertEqual(response.status_code, status)
+
+    def test_create_comments_access(self):
+        self.client.force_login(self.user)
+        url = reverse('catalog:add_comment', args=(self.book.id,))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, HTTPStatus.OK)
