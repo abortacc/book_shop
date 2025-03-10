@@ -15,6 +15,7 @@ User = get_user_model()
 class TestCommentCreation(TestCase):
 
     COMMENT_TEXT = 'Какой-то комментарий'
+    NEW_COMMENT_TEXT = 'Такой-то комментарий'
 
     @classmethod
     def setUpTestData(cls):
@@ -29,6 +30,9 @@ class TestCommentCreation(TestCase):
         cls.user = User.objects.create(username='myUser')
         cls.user_client = Client()
         cls.user_client.force_login(cls.user)
+        cls.own_user = User.objects.create(username='ownUser')
+        cls.own_user_client = Client()
+        cls.own_user_client.force_login(cls.user)
         cls.form_data = {'text': cls.COMMENT_TEXT}
         cls.comment_create_url = reverse('catalog:add_comment', args=(cls.book.id,))
         cls.comment_url = reverse('catalog:details', args=(cls.book.id,))
@@ -40,4 +44,16 @@ class TestCommentCreation(TestCase):
         self.assertEqual(comments_count, 1)
         comment = get_object_or_404(Comment, pk=self.book.id)
         self.assertEqual(comment.user, self.user)
+        self.assertEqual(comment.text, self.COMMENT_TEXT)
+
+    def test_unlogged_comment_creation(self):
+        self.client.post(self.comment_url, data=self.form_data)
+        comments_count = Comment.objects.count()
+        self.assertEqual(comments_count, 0)
+
+    def test_own_user_comment_edit(self):
+        self.user_client.post(self.comment_create_url, data=self.form_data)
+        comment = get_object_or_404(Comment, pk=1)
+        url = self.client.get('catalog:edit_comment', args=(self.book.id, comment.id,))
+        self.own_user_client.post(url, data={'text': self.NEW_COMMENT_TEXT})
         self.assertEqual(comment.text, self.COMMENT_TEXT)
