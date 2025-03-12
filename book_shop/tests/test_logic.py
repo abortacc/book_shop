@@ -54,6 +54,14 @@ class TestCommentCreation(TestCase):
     def test_own_user_comment_edit(self):
         self.user_client.post(self.comment_create_url, data=self.form_data)
         comment = get_object_or_404(Comment, pk=1)
-        url = self.client.get('catalog:edit_comment', args=(self.book.id, comment.id,))
+        url = reverse('catalog:edit_comment', args=(self.book.id, comment.id,))
         self.own_user_client.post(url, data={'text': self.NEW_COMMENT_TEXT})
         self.assertEqual(comment.text, self.COMMENT_TEXT)
+
+    def test_logged_comment_delete(self):
+        self.user_client.post(self.comment_create_url, data=self.form_data)
+        comment = get_object_or_404(Comment, pk=1)
+        url = reverse('catalog:delete_comment', args=(self.book.id, comment.id))
+        self.user_client.delete(url)
+        comment_count = Comment.objects.count()
+        self.assertEqual(comment_count, 0)
