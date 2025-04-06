@@ -63,7 +63,8 @@
 
         <div>
         <h3 class="mb-2 mt-5">Комментарии:</h3>
-            {% include "includes/comments.html" %}
+            {% include "includes/comments.html" %} 
+            {% if not comments %} <p>Комментариев нет</p> {% endif %}
         </div>
 
         {% if related_books %}
