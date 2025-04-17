@@ -10,6 +10,7 @@ app_name = 'catalog'
 
 router = DefaultRouter()
 router.register('books', views.BookViewSet)
+router.register('categories', views.CategoryViewSet)
 
 
 urlpatterns = [

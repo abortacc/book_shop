@@ -15,7 +15,7 @@ from django.views.generic import (
 from .models import Book, Category
 from accounts.models import Comment
 from .forms import CommentForm
-from .serializers import BookSerializer
+from .serializers import BookSerializer, CategorySerializer
 
 
 class CatalogListView(ListView):
@@ -141,3 +141,8 @@ class CommentDeleteView(CommentMixin, DeleteView):
 class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
