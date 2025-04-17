@@ -1,10 +1,19 @@
-from django.urls import path
+from rest_framework.routers import DefaultRouter
+
+
+from django.urls import include, path
 from . import views
 
 
 app_name = 'catalog'
 
+
+router = DefaultRouter()
+router.register('books', views.BookViewSet)
+
+
 urlpatterns = [
+    path('api/', include(router.urls)),
     path('', views.CatalogListView.as_view(), name='catalog_main'),
     path(
         '<slug:slug_name>/',
