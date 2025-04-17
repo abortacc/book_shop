@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block title %}
+    Книгликс - Профиль {{ user.username }}
+{% endblock title %}
+
 {% block content %}
 <div class="container-fluid">
     <div class="row">
