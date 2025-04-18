@@ -12,7 +12,7 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-from .models import Book, Category
+from .models import Book, Category, Tag
 from accounts.models import Comment
 from .forms import CommentForm
 from .serializers import BookSerializer, CategorySerializer
@@ -26,9 +26,15 @@ class CatalogListView(ListView):
     def get_queryset(self):
         slug_name = self.kwargs.get('slug_name')
         if slug_name:
-            return self.get_books_by_category(slug_name)
+            queryset = self.get_books_by_category(slug_name)
         else:
-            return self.get_all_books()
+            queryset = self.get_all_books()
+
+        tag_slugs = self.request.GET.getlist('tag')
+        if tag_slugs:
+            queryset = queryset.filter(tags__slug__in=tag_slugs)
+
+        return queryset
 
     def get_books_by_category(self, slug_name):
         category = get_object_or_404(
@@ -53,8 +59,12 @@ class CatalogListView(ListView):
             category__is_published=True
         ).order_by('id')
 
+    def get_all_tags(self):
+        return Tag.objects.all()
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['tags'] = self.get_all_tags()
         if hasattr(self, 'category'):
             context['category'] = self.category
         return context

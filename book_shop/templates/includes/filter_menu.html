@@ -1,0 +1,33 @@
+            <!-- Поиск и сортировка -->
+            <div class="row mb-4">
+                <div class="col-md-6 text-md-end mt-3 mt-md-0">
+                    <form method="get" action="{% url 'catalog:catalog_main' %}" class="d-inline">
+                        <!-- Сохраняем остальные параметры -->
+                        <input type="hidden" name="tag" value="{{ request.GET.tag }}">
+                    </form>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-3 col-md-4 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Фильтры</h5>
+                            <form method="get" action="{% url 'catalog:catalog_main' %}">
+                                <input type="hidden" name="sort" value="{{ request.GET.sort }}">    
+
+                                <div class="mb-3">
+                                    <h6>Теги</h6>
+                                    {% for tag in tags %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="tag" value="{{ tag.slug }}" id="tag-{{ tag.slug }}" {% if tag.slug in selected_tags %}checked{% endif %}>
+                                            <label class="form-check-label" for="tag-{{ tag.slug }}">{{ tag.name }}</label>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                                <button class="btn btn-primary w-100" type="submit">Применить</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
