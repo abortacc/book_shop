@@ -28,7 +28,7 @@ class CatalogListView(ListView):
 
         tag_slugs = self.request.GET.getlist('tag')
         if tag_slugs:
-            queryset = queryset.filter(tags__slug__in=tag_slugs)
+            queryset = queryset.filter(tags__slug__in=tag_slugs).distinct()
 
         return queryset
 
