@@ -3,14 +3,15 @@ from rest_framework.routers import DefaultRouter
 
 from django.urls import include, path
 from . import views
+from .api_views import BookViewSet, CategoryViewSet
 
 
 app_name = 'catalog'
 
 
 router = DefaultRouter()
-router.register('books', views.BookViewSet)
-router.register('categories', views.CategoryViewSet)
+router.register('books', BookViewSet)
+router.register('categories', CategoryViewSet)
 
 
 urlpatterns = [

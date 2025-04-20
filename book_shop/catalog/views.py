@@ -1,6 +1,3 @@
-from rest_framework import viewsets
-
-
 from django.shortcuts import get_object_or_404, redirect
 from django.db.models import Prefetch, Count
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -15,7 +12,6 @@ from django.views.generic import (
 from .models import Book, Category, Tag
 from accounts.models import Comment
 from .forms import CommentForm
-from .serializers import BookSerializer, CategorySerializer
 
 
 class CatalogListView(ListView):
@@ -146,13 +142,3 @@ class CommentUpdateView(CommentMixin, UpdateView):
 
 class CommentDeleteView(CommentMixin, DeleteView):
     pass
-
-
-class BookViewSet(viewsets.ModelViewSet):
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
-
-
-class CategoryViewSet(viewsets.ModelViewSet):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
