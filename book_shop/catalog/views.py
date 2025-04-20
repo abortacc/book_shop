@@ -17,7 +17,7 @@ from .forms import CommentForm
 class CatalogListView(ListView):
     template_name = 'catalog/catalog.html'
     context_object_name = 'book_list'
-    paginate_by = 8
+    paginate_by = 12
 
     def get_queryset(self):
         slug_name = self.kwargs.get('slug_name')
