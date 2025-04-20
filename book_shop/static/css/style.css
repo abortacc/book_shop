@@ -345,4 +345,17 @@ h3 {
 .card-header {
     background-color: #33B471;
 }
-  
+
+.page-link {
+    color: #28a745;
+}
+
+.page-item.active .page-link {  
+    color: #ffff;
+    background: #28a745;
+    border-color: #ffff;
+}
+
+.page-item :hover {
+    color: #28a745;
+}
