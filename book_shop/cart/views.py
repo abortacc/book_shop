@@ -1,3 +1,9 @@
-from django.shortcuts import render
+from django.views.generic import TemplateView
 
-# Create your views here.
+
+from catalog.models import Book
+from .models import Order
+
+
+class CartTemplateView(TemplateView):
+    template_name = 'cart/cart.html'

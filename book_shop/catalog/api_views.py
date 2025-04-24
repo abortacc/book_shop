@@ -1,8 +1,8 @@
 from rest_framework import viewsets
 
 
-from .models import Book, Category
-from .serializers import BookSerializer, CategorySerializer
+from .models import Book, Category, Tag
+from .serializers import BookSerializer, CategorySerializer, TagSerializer
 
 
 class BookViewSet(viewsets.ModelViewSet):
@@ -13,3 +13,8 @@ class BookViewSet(viewsets.ModelViewSet):
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+
+
+class TagViewSet(viewsets.ModelViewSet):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer

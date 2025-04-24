@@ -53,7 +53,7 @@ class CatalogListView(ListView):
         ).filter(
             is_published=True,
             category__is_published=True
-        ).order_by('id')
+        ).order_by('-created_at')
 
     def get_all_tags(self):
         return Tag.objects.all()
@@ -77,7 +77,7 @@ class BookDetailView(DetailView):
         ).exclude(
             id=self.object.id
         ).order_by(
-            '-created_at'
+            '?'
         )[:6].select_related('category')
 
     def get_related_tag_books(self, book):
