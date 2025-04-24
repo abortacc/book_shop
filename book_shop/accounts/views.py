@@ -60,7 +60,7 @@ class UnfollowUserView(LoginRequiredMixin, RedirectView):
         return reverse('accounts:profile', kwargs={'username': self.kwargs['username']})
 
 
-class FollowersListView(ListView):
+class FollowersListView(LoginRequiredMixin, ListView):
     model = User
     template_name = 'accounts/followers_list.html'
     context_object_name = 'followers'
@@ -75,7 +75,7 @@ class FollowersListView(ListView):
         return context
 
 
-class FollowingListView(ListView):
+class FollowingListView(LoginRequiredMixin, ListView):
     model = User
     template_name = 'accounts/following_list.html'
     context_object_name = 'following'
@@ -90,7 +90,7 @@ class FollowingListView(ListView):
         return context
 
 
-class AddToWishlistView(RedirectView):
+class AddToWishlistView(LoginRequiredMixin, RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         book = get_object_or_404(Book, id=self.kwargs['book_id'])
         self.request.user.wishlist.add(book)
@@ -104,7 +104,7 @@ class RemoveFromWishlistView(LoginRequiredMixin, RedirectView):
         return reverse_lazy('catalog:details', kwargs={'pk': self.kwargs['book_id']})
 
 
-class WishlistListView(ListView):
+class WishlistListView(LoginRequiredMixin, ListView):
     model = User
     template_name = 'accounts/wishlist.html'
     context_object_name = 'user'
