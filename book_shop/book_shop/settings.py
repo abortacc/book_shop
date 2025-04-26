@@ -134,6 +134,9 @@ MEDIA_URL = 'media/'
 
 MEDIA_ROOT = BASE_DIR / MEDIA_URL
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_AGE = 1209600
+
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 
 EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'
