@@ -1,4 +1,8 @@
 from django.db import models
+from django.views.generic import ListView
+
+
+from .mixins import AutoTemplateMixin
 
 
 class IsOnMainModel(models.Model):
@@ -44,6 +48,15 @@ class StockModel(models.Model):
     @property
     def is_avaible(self):
         return self.stock > 0
+
+    class Meta:
+        abstract = True
+
+
+class BaseListView(AutoTemplateMixin, ListView):
+    paginate_by = 12
+    context_object_name = 'objects'
+    template_name_suffix = '_list'
 
     class Meta:
         abstract = True

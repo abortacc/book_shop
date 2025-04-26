@@ -3,21 +3,22 @@ from django.db.models import Prefetch, Count
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import (
-    ListView,
     DetailView,
     CreateView,
     UpdateView,
     DeleteView
 )
+
+
 from .models import Book, Category, Tag
 from accounts.models import Comment
 from .forms import CommentForm
+from core.models.base import BaseListView
 
 
-class CatalogListView(ListView):
-    template_name = 'catalog/catalog.html'
+class CatalogListView(BaseListView):
+    model = Book
     context_object_name = 'book_list'
-    paginate_by = 12
 
     def get_queryset(self):
         slug_name = self.kwargs.get('slug_name')
