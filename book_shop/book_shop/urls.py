@@ -20,6 +20,7 @@ urlpatterns = [
         ),
         name='registration',
     ),
+    path('cart/', include('cart.urls', namespace='cart'))
 ]
 
 if settings.DEBUG:

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Оформление заказа{% endblock title %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="mb-4">Оформление заказа</h1>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Контактные данные</h5>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Имя</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Телефон</label>
+                            <input type="tel" class="form-control" id="phone" name="phone" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg w-100">Подтвердить заказ</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Ваш заказ</h5>
+                    {% for item in cart_items %}
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>{{ item.book.title }} x {{ item.quantity }}</span>
+                            <span>{{ item.total_price }} ₽</span>
+                        </div>
+                    {% endfor %}
+                    <hr>
+                    <div class="d-flex justify-content-between fw-bold">
+                        <span>Итого:</span>
+                        <span>{{ subtotal }} ₽</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
